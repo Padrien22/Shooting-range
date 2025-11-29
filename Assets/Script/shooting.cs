@@ -14,7 +14,8 @@ public class VRGunShooter : MonoBehaviour
     public float fireCooldown = 0.1f;
 
     [Header("Effets visuels")]
-    public ParticleSystem muzzleFlash;   // 👈 ton particule système
+    public ParticleSystem muzzleFlash;
+    public ParticleSystem muzzleFlash2;
 
     private bool _wasPressed = false;
     private float _lastShotTime = 0f;
@@ -59,16 +60,11 @@ public class VRGunShooter : MonoBehaviour
             // ou rb.velocity selon ta version de Unity
         }
 
-        // 🔥 JOUER LE PARTICLE SYSTEM ICI
-        if (muzzleFlash != null)
-        {
-            // Optionnel : le recaler au bout du canon
-            muzzleFlash.transform.position = firePoint.position;
-            muzzleFlash.transform.rotation = firePoint.rotation;
+        muzzleFlash.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        muzzleFlash.Play();
 
-            muzzleFlash.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); // pour reset proprement
-            muzzleFlash.Play();
-        }
+        muzzleFlash2.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        muzzleFlash2.Play();
 
         Destroy(bullet, 5f);
     }
