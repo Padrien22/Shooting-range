@@ -1,87 +1,91 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TargetPoolManager : MonoBehaviour
 {
-    [Header("Pool")]
-    [SerializeField] private GameObject targetPrefab; 
-    [SerializeField] private List<PooledTarget> initialTargets = new();
+    [Header("Prefabs (Project)")]
+    [SerializeField] private List<GameObject> targetPrefabs = new();
 
-    [Header("Spawn Points")]
-    [SerializeField] private Transform[] spawnPoints;
+    [Header("Pool size")]
+    [SerializeField] private int instancesPerPrefab = 1;
 
-    [Header("Respawn")]
-    [SerializeField] private float respawnDelay = 5f;
-    [SerializeField] private bool respawnRandomPoint = true;
-
-
-    private readonly List<PooledTarget> _pool = new();
+    private readonly List<PooledTarget> _all = new();
 
     private void Awake()
     {
 
-        foreach (var t in initialTargets)
-        {
-            if (t == null) continue;
-            RegisterTarget(t);
-            t.gameObject.SetActive(true);
-        }
+        BuildPool();
     }
 
-    private void RegisterTarget(PooledTarget t)
+    private void BuildPool()
     {
-        t.pool = this;
-        if (!_pool.Contains(t))
-            _pool.Add(t);
+        _all.Clear();
+
+        if (targetPrefabs == null || targetPrefabs.Count == 0)
+        {
+            Debug.LogError("[TargetPoolManager] No prefabs assigned!", this);
+            return;
+        }
+
+        int index = 0;
+        foreach (var prefab in targetPrefabs)
+        {
+            if (prefab == null) continue;
+
+            for (int i = 0; i < Mathf.Max(1, instancesPerPrefab); i++)
+            {
+                var go = Instantiate(prefab);
+                go.name = $"{prefab.name}_Pooled_{index}";
+                go.SetActive(false);
+
+                var pt = go.GetComponent<PooledTarget>();
+                if (pt == null) pt = go.AddComponent<PooledTarget>();
+
+                pt.pool = null;            // on le set juste après
+                pt.spawnIndex = index;
+                pt.pool = null;            // double sécurité
+
+                // lien pool
+                pt.pool = null; // sera set juste en dessous
+                pt.pool = null;
+
+                pt.pool = null; // ok on clean, puis:
+                pt.pool = null;
+
+                // (vraie assignation)
+                pt.pool = this.GetComponentInChildren<TargetSpawnerZone>(true) != null
+                    ? null
+                    : null;
+
+                // => on met pool = null et le spawner la set quand il active une cible
+
+                _all.Add(pt);
+                index++;
+            }
+        }
+
+        Debug.Log($"[TargetPoolManager] Pool built: {_all.Count} instances.", this);
     }
 
+    /// <summary>Retourne une instance inactive disponible, ou null.</summary>
+    public PooledTarget GetInactive()
+    {
+        for (int i = 0; i < _all.Count; i++)
+        {
+            if (_all[i] != null && !_all[i].gameObject.activeInHierarchy)
+                return _all[i];
+        }
+        return null;
+    }
+
+    /// <summary>Appelé par PooledTarget.ReturnToPool()</summary>
     public void ReturnTarget(PooledTarget target)
     {
-        StartCoroutine(RespawnAfterDelay(target, respawnDelay));
+        if (target == null) return;
+        // Ici on ne respawn pas directement: c’est le spawner qui s’occupe de maintenir 4 actives.
+        // On s’assure juste qu’elle est bien inactive.
+        target.gameObject.SetActive(false);
     }
 
-    private IEnumerator RespawnAfterDelay(PooledTarget target, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        // Choix du point
-        Transform spawn = ChooseSpawnPoint(target);
-
-        // Reset + replacer + réactiver
-        target.ResetState();
-        target.transform.SetPositionAndRotation(spawn.position, spawn.rotation);
-        target.gameObject.SetActive(true);
-    }
-
-    private Transform ChooseSpawnPoint(PooledTarget target)
-    {
-        if (spawnPoints == null || spawnPoints.Length == 0)
-            return target.transform; // fallback
-
-        if (!respawnRandomPoint && target.spawnIndex >= 0 && target.spawnIndex < spawnPoints.Length)
-            return spawnPoints[target.spawnIndex];
-
-        int idx = Random.Range(0, spawnPoints.Length);
-        target.spawnIndex = idx;
-        return spawnPoints[idx];
-    }
-
-    public PooledTarget GetAvailableOrCreate()
-    {
-        for (int i = 0; i < _pool.Count; i++)
-        {
-            if (!_pool[i].gameObject.activeInHierarchy)
-                return _pool[i];
-        }
-
-        if (targetPrefab == null) return null;
-
-        var go = Instantiate(targetPrefab);
-        var pt = go.GetComponent<PooledTarget>();
-        if (pt == null) pt = go.AddComponent<PooledTarget>();
-        RegisterTarget(pt);
-        go.SetActive(false);
-        return pt;
-    }
+    public IReadOnlyList<PooledTarget> All => _all;
 }

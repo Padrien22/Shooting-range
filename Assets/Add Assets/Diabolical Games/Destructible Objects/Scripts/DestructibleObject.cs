@@ -135,6 +135,7 @@ namespace DiabolicalGames{
 
         void OnCollisionEnter(Collision collision){
             if(collision.relativeVelocity.magnitude > forceRequired){
+                GameplayManager.Instance.AddScore(10);
                 Break();
             }
         }
