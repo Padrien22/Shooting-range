@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8976882677420005473}
   - component: {fileID: 4845644586966346027}
   - component: {fileID: 8713242665328377763}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Crate 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,6 +168,8 @@ MonoBehaviour:
   despawnTime: 30
   player: {fileID: 0}
   distanceFromPlayer: 30
+  pcvrDebris: 2
+  questDebris: 0
 --- !u!114 &8713242665328377763
 MonoBehaviour:
   m_ObjectHideFlags: 0

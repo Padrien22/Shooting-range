@@ -18,32 +18,21 @@ public class PooledTarget : MonoBehaviour
 
     public void ReturnToPool()
     {
-        if (pool == null)
-        {
-            gameObject.SetActive(false);
-            return;
-        }
-
-        // reset physique / collisions / visuel
         ResetState();
-
-        // désactive puis rend au pool
         gameObject.SetActive(false);
-        pool.ReturnTarget(this);
+
+        if (pool != null)
+            pool.ReturnTarget(this);
     }
 
     public void ResetState()
     {
-        // collisions ON
         foreach (var c in _cols) c.enabled = true;
-
-        // visuel ON (si tu changes des matériaux, tu peux rétablir ici)
         foreach (var r in _renderers) r.enabled = true;
 
-        // rigidbody reset
         if (_rb != null)
         {
-            _rb.linearVelocity = Vector3.zero;     // ou _rb.velocity selon ton Unity
+            _rb.linearVelocity = Vector3.zero; // sinon _rb.velocity selon ta version
             _rb.angularVelocity = Vector3.zero;
             _rb.Sleep();
             _rb.WakeUp();

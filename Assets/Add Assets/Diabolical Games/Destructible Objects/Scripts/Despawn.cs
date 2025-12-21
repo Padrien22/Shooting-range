@@ -7,6 +7,8 @@ using UnityEngine;
 namespace DiabolicalGames{
     public class Despawn : MonoBehaviour
     {
+        [SerializeField] private bool disableParentAfterDespawn = true;
+
         private int despawnPercentage;
         private float despawnTime;
         private float distanceFromPlayer;
@@ -79,13 +81,26 @@ namespace DiabolicalGames{
         }
 
         //Despawns the debris based on the despawn percentage
-        public void DespawnDebris(){
-            int despawnCount = transform.childCount * despawnPercentage/100;
-            for(int i = transform.childCount-1; i >= transform.childCount-despawnCount; i--){
-                    var child = transform.GetChild(i).gameObject;
-                    child.SetActive(false);
-                }
+        public void DespawnDebris()
+        {
+            int despawnCount = transform.childCount * despawnPercentage / 100;
+
+            for (int i = transform.childCount - 1; i >= transform.childCount - despawnCount; i--)
+            {
+                var child = transform.GetChild(i).gameObject;
+                child.SetActive(false);
+            }
+
+            if (disableParentAfterDespawn)
+            {
+                // Optionnel : arrêter toutes les coroutines pour être safe
+                StopAllCoroutines();
+
+                // Désactive le parent (et donc ce script)
+                gameObject.SetActive(false);
+            }
         }
+
 
         //Checks the distance between the debris and the player every 0.5 seconds after a 5 second delay
         public IEnumerator CheckDistance(){

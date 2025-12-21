@@ -5,15 +5,16 @@ TagManager:
   serializedVersion: 3
   tags:
   - Anchor
+  - Target
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
-  - 
-  - 
+  - Target
+  - Dechet
   - 
   - 
   - 

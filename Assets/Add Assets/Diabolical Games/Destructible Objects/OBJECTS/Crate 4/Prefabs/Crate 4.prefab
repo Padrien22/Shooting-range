@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4853845223704843612}
   - component: {fileID: 6421376360403715298}
   - component: {fileID: 8791093351151672888}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Crate 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5953666963182373358}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.000013794116, y: 0, z: 0.0050337533, w: 0.99998736}
+  m_LocalPosition: {x: -10.233473, y: 7.841062, z: 18.221674}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -168,6 +168,8 @@ MonoBehaviour:
   despawnTime: 30
   player: {fileID: 0}
   distanceFromPlayer: 30
+  pcvrDebris: 2
+  questDebris: 0
 --- !u!114 &8791093351151672888
 MonoBehaviour:
   m_ObjectHideFlags: 0
