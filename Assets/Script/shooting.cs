@@ -1,14 +1,12 @@
 using UnityEngine;
-using UnityEngine.InputSystem;   // pour InputActionProperty
+using UnityEngine.InputSystem;
 
 public class VRGunShooter : MonoBehaviour
 {
     [Header("Input")]
-    [Tooltip("Action liée à la gâchette droite (Activate du contrôleur droit).")]
     public InputActionProperty triggerAction;
 
     [Header("Tir")]
-    public GameObject bulletPrefab;
     public Transform firePoint;
     public float bulletSpeed = 20f;
     public float fireCooldown = 0.1f;
@@ -22,19 +20,21 @@ public class VRGunShooter : MonoBehaviour
 
     private void OnEnable()
     {
-        if (triggerAction != null)
+        if (triggerAction.action != null)
             triggerAction.action.Enable();
     }
 
+
     private void OnDisable()
     {
-        if (triggerAction != null)
+        if (triggerAction.action != null)
             triggerAction.action.Disable();
     }
 
+
     private void Update()
     {
-        if (triggerAction == null) return;
+        if (triggerAction == null || triggerAction.action == null) return;
 
         float value = triggerAction.action.ReadValue<float>();
         bool isPressed = value > 0.9f;
@@ -50,22 +50,30 @@ public class VRGunShooter : MonoBehaviour
 
     private void Shoot()
     {
-        if (bulletPrefab == null || firePoint == null) return;
+        if (firePoint == null) return;
+        if (BulletPool.Instance == null)
+        {
+            Debug.LogError("BulletPool.Instance est null : ajoute BulletPool dans la scène.");
+            return;
+        }
 
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        GameObject bullet = BulletPool.Instance.GetBullet(firePoint.position, firePoint.rotation);
 
         if (bullet.TryGetComponent<Rigidbody>(out var rb))
         {
             rb.linearVelocity = firePoint.up * bulletSpeed;
-            // ou rb.velocity selon ta version de Unity
         }
 
-        muzzleFlash.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        muzzleFlash.Play();
+        if (muzzleFlash != null)
+        {
+            muzzleFlash.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            muzzleFlash.Play();
+        }
 
-        muzzleFlash2.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        muzzleFlash2.Play();
-
-        Destroy(bullet, 5f);
+        if (muzzleFlash2 != null)
+        {
+            muzzleFlash2.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            muzzleFlash2.Play();
+        }
     }
 }
