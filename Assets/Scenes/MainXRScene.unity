@@ -6043,6 +6043,7 @@ GameObject:
   m_Component:
   - component: {fileID: 679270404}
   - component: {fileID: 679270407}
+  - component: {fileID: 679270408}
   m_Layer: 0
   m_Name: Gun (1)
   m_TagString: Untagged
@@ -6103,12 +6104,25 @@ MonoBehaviour:
         m_Flags: 0
       m_Flags: 0
     m_Reference: {fileID: 0}
-  bulletPrefab: {fileID: 166580, guid: 14e8966d9de08fb4ea1cb7d5e9ead89c, type: 3}
   firePoint: {fileID: 846334604}
   bulletSpeed: 30
   fireCooldown: 0.1
   muzzleFlash: {fileID: 322559764}
   muzzleFlash2: {fileID: 1138416298}
+--- !u!114 &679270408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 679270403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e246d1573f72d84d93b52679369100b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  bulletPrefab: {fileID: 166580, guid: 14e8966d9de08fb4ea1cb7d5e9ead89c, type: 3}
+  prewarmCount: 20
 --- !u!1 &742492506
 GameObject:
   m_ObjectHideFlags: 0

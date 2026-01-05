@@ -302,6 +302,7 @@ GameObject:
   - component: {fileID: 20527772}
   - component: {fileID: 6642784798430883397}
   - component: {fileID: 8835878632502213342}
+  - component: {fileID: 4635213804995779290}
   m_Layer: 0
   m_Name: Bullet-7.62 (DarkZinc) HQ
   m_TagString: Untagged
@@ -404,6 +405,19 @@ CapsuleCollider:
   m_Height: 0.06
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4635213804995779290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 166580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebde1a1902023fd45af6ec2caf31ba29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PooledBullet
+  lifeTime: 5
 --- !u!1 &169550
 GameObject:
   m_ObjectHideFlags: 0
