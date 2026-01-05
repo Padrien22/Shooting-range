@@ -51,19 +51,6 @@ public class DestructibleObject : MonoBehaviour
 
     [SerializeField, Tooltip("Distance between debris and player before debris despawns when using the Distance from Player despawn mode")]
     private float distanceFromPlayer;
-
-    [Header("Audio")]
-    [SerializeField, Tooltip("List of audio clips that will be played when the object breaks. Audio clips are selected randomly from the list")]
-    private List<AudioClip> audioClips = new List<AudioClip>();
-
-    [SerializeField, Tooltip("Volume of the audio clip when played"), Range(0f, 1f)]
-    private float volume;
-
-    [SerializeField, Tooltip("Amount of variation in the volume of each audio clip played"), Range(0f, 0.2f)]
-    private float volumeVariation;
-
-    [SerializeField, Tooltip("Amount of variation in the pitch volume of each audio clip played"), Range(0f, 0.5f)]
-    private float pitchVariation;
     
     private GameObject debris;
     private new Rigidbody rigidbody;
@@ -85,7 +72,7 @@ public class DestructibleObject : MonoBehaviour
         }
 
         //Sends variable values to the debris
-        debris.GetComponent<Despawn>().SetVariables(despawnPercentage, despawnTime, distanceFromPlayer, player, audioClips[Random.Range(0, audioClips.Count)], volume, volumeVariation, pitchVariation);
+        debris.GetComponent<Despawn>().SetVariables(despawnPercentage, despawnTime, distanceFromPlayer, player, null, 0f, 0f, 0f);
 
         //Activates the despawning mechanism of the debris
         switch(despawnType){
