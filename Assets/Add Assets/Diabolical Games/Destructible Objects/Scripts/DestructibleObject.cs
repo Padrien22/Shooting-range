@@ -84,11 +84,19 @@ public class DestructibleObject : MonoBehaviour
                 break;
         }
 
-        //Destroys the game object
-        Destroy(gameObject);
-    }
+            var pooled = GetComponent<PooledTarget>();
+            if (pooled != null)
+            {
+                pooled.ReturnToPool();
+            }
+            else
+            {
+                Destroy(gameObject); // fallback si ce n'est pas une cible poolée
+            }
 
-    void Start()
+        }
+
+        void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
 
