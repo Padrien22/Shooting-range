@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8988866222075271296}
   - component: {fileID: 8976882677420005473}
   - component: {fileID: 4845644586966346027}
+  - component: {fileID: 8713242665328377763}
   m_Layer: 0
   m_Name: Crate 3
   m_TagString: Untagged
@@ -167,11 +168,17 @@ MonoBehaviour:
   despawnTime: 30
   player: {fileID: 0}
   distanceFromPlayer: 30
-  audioClips:
-  - {fileID: 8300000, guid: 7eb48b1ee23012b48a2d6530e6d0ab30, type: 3}
-  - {fileID: 8300000, guid: dc7724320e7f5a34d994515d42ac1cb9, type: 3}
-  - {fileID: 8300000, guid: 9c9202f6f00d04c489a7eab8d91cc942, type: 3}
-  - {fileID: 8300000, guid: 43119588cb2c1da4dbbb021a1151f9dd, type: 3}
-  volume: 1
-  volumeVariation: 0.1
-  pitchVariation: 0.25
+--- !u!114 &8713242665328377763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7957644449929055489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1c889f2f91f2d54b8cede94fb7d56fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PooledTarget
+  pool: {fileID: 0}
+  spawnIndex: -1
