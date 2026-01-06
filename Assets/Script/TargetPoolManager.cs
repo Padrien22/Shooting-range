@@ -5,8 +5,8 @@ using UnityEngine;
 public class TargetPoolManager : MonoBehaviour
 {
     [Header("Pool")]
-    [SerializeField] private GameObject targetPrefab; // option si tu veux instancier si besoin
-    [SerializeField] private List<PooledTarget> initialTargets = new(); // tes Crates déjà dans la scène
+    [SerializeField] private GameObject targetPrefab; 
+    [SerializeField] private List<PooledTarget> initialTargets = new();
 
     [Header("Spawn Points")]
     [SerializeField] private Transform[] spawnPoints;
@@ -14,6 +14,7 @@ public class TargetPoolManager : MonoBehaviour
     [Header("Respawn")]
     [SerializeField] private float respawnDelay = 5f;
     [SerializeField] private bool respawnRandomPoint = true;
+
 
     private readonly List<PooledTarget> _pool = new();
 
